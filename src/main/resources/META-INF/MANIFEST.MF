@@ -1,0 +1,5 @@
+Premain-Class: fr.xebia.introlog.agent.MainAgent
+Agent-Class: fr.xebia.introlog.agent.MainAgent
+Can-Redefine-Classes: true
+Can-Retransform-Classes: true
+Can-Set-Native-Method-Prefix: false
