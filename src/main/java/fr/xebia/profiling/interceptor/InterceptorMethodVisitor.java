@@ -208,7 +208,7 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
 
 
         // Log enter in code
-        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "fr/jbu/profiling/interceptor/Interceptor", "enterMethod", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[Ljava/lang/Class;[Ljava/lang/Object;)V");
+        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "fr/xebia/profiling/interceptor/Interceptor", "enterMethod", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[Ljava/lang/Class;[Ljava/lang/Object;)V");
         // delagate visit code
         mv.visitCode();
     }
@@ -223,7 +223,7 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
         mv.visitVarInsn(LLOAD, timerLocalVar);
         mv.visitInsn(LSUB);
         // Log exit method in code
-        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "fr/jbu/profiling/interceptor/Interceptor", "exitMethod", "(Ljava/lang/String;Ljava/lang/String;J)V");
+        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "fr/xebia/profiling/interceptor/Interceptor", "exitMethod", "(Ljava/lang/String;Ljava/lang/String;J)V");
 
     }
 
