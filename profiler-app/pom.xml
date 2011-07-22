@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>log-parent</artifactId>
+        <groupId>fr.xebia.log</groupId>
+        <version>0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <description>
+        Application for adding sampling at runtime with a java agent.
+        Store all methode call in hbase
+    </description>
+
+    <artifactId>profiler-app</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>fr.xebia.log</groupId>
+            <artifactId>instrumentation</artifactId>
+            <version>${version}</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.xebia.log</groupId>
+            <artifactId>hbase-persistence</artifactId>
+            <version>${version}</version>
+        </dependency>
+    </dependencies>
+
+
+</project>
