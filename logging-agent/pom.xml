@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>log-parent</artifactId>
+        <groupId>fr.xebia.log</groupId>
+        <version>0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>logging-agent</artifactId>
+    <description>
+        Application for adding logging at runtime with a java agent.
+        Send log to server with thrift.
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>fr.xebia.log</groupId>
+            <artifactId>log-agent</artifactId>
+            <version>${version}</version>
+        </dependency>
+    </dependencies>
+</project>
