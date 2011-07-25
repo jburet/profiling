@@ -1,9 +1,9 @@
 package fr.xebia.profiling.agent;
 
-import fr.xebia.profiling.configuration.ClassPattern;
-import fr.xebia.profiling.configuration.Configuration;
+import fr.xebia.log.configuration.ClassPattern;
+import fr.xebia.log.configuration.InstrumentationConfiguration;
 
-public class ConfigurationByProperties implements Configuration {
+public class ConfigurationByProperties implements InstrumentationConfiguration {
     @Override
     public ClassPattern getClassToInstrument() {
         return new ClassPattern();
