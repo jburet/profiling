@@ -10,10 +10,12 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>log-agent</module>
-        <module>logging-app</module>
         <module>logging-agent</module>
+        <module>instrumentation</module>
+        <module>profiler-app</module>
         <module>hbase-persistence</module>
+        <module>thrift-connector</module>
+        <module>common</module>
     </modules>
 
     <pluginRepositories>
@@ -43,4 +45,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

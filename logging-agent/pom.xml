@@ -18,7 +18,12 @@
     <dependencies>
         <dependency>
             <groupId>fr.xebia.log</groupId>
-            <artifactId>log-agent</artifactId>
+            <artifactId>instrumentation</artifactId>
+            <version>${version}</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.xebia.log</groupId>
+            <artifactId>log-parent</artifactId>
             <version>${version}</version>
         </dependency>
     </dependencies>
