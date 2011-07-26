@@ -2,24 +2,28 @@ namespace java fr.xebia.log.transport.thrift
 
 // method log structure
 struct MethodExecution {
+    // agent id
+	1: string clusterId,
 	// agent id
-	1: string agentId,
+	2: string serverId,
+	// agent id
+	3: string agentId,
 	// thread name
-	2: string threadName,
+	4: string threadName,
 	// correlation id
-	3: string correlationId,
+	5: string threadId,
 	// classname
-	4: string className,
+	6: string className,
 	// method name
-	5: string methodName,
+	7: string methodName,
 	// parameter
-	6: map<string,binary> parameters,
+	8: map<string,string> parameters,
 	// return value TODO change to binary
-	7: optional string returnValue,
+	9: optional string returnValue,
 	// exception TODO change to binary
-	8: optional string throwableType,
+	10: optional string throwableType,
 	// execution time
-	9: i64 executionTimeInNano,
+	11: i64 executionTimeInNano,
 }
 
 
