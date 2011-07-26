@@ -1,6 +1,5 @@
 package fr.xebia.log.server.store.hbase.repository;
 
-import fr.xebia.log.buffer.CircularBuffer;
 import fr.xebia.log.transport.thrift.MethodExecution;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Put;
