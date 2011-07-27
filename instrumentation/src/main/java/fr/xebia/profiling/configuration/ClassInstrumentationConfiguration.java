@@ -1,13 +1,16 @@
 package fr.xebia.profiling.configuration;
 
+import fr.xebia.log.configuration.ClassPattern;
+import fr.xebia.log.configuration.InstrumentationConfiguration;
+
 /**
  * Manage Class instrumentation conf
  */
 public class ClassInstrumentationConfiguration {
 
-    private final Configuration configuration;
+    private final InstrumentationConfiguration configuration;
 
-    public ClassInstrumentationConfiguration(Configuration configuration) {
+    public ClassInstrumentationConfiguration(InstrumentationConfiguration configuration) {
         this.configuration = configuration;
     }
 

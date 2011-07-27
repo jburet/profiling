@@ -23,37 +23,43 @@ import org.slf4j.LoggerFactory;
 public class MethodExecution implements org.apache.thrift.TBase<MethodExecution, MethodExecution._Fields>, java.io.Serializable, Cloneable {
   private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("MethodExecution");
 
-  private static final org.apache.thrift.protocol.TField AGENT_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("agentId", org.apache.thrift.protocol.TType.STRING, (short)1);
-  private static final org.apache.thrift.protocol.TField THREAD_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("threadName", org.apache.thrift.protocol.TType.STRING, (short)2);
-  private static final org.apache.thrift.protocol.TField CORRELATION_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("correlationId", org.apache.thrift.protocol.TType.STRING, (short)3);
-  private static final org.apache.thrift.protocol.TField CLASS_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("className", org.apache.thrift.protocol.TType.STRING, (short)4);
-  private static final org.apache.thrift.protocol.TField METHOD_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("methodName", org.apache.thrift.protocol.TType.STRING, (short)5);
-  private static final org.apache.thrift.protocol.TField PARAMETERS_FIELD_DESC = new org.apache.thrift.protocol.TField("parameters", org.apache.thrift.protocol.TType.MAP, (short)6);
-  private static final org.apache.thrift.protocol.TField RETURN_VALUE_FIELD_DESC = new org.apache.thrift.protocol.TField("returnValue", org.apache.thrift.protocol.TType.STRING, (short)7);
-  private static final org.apache.thrift.protocol.TField THROWABLE_TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("throwableType", org.apache.thrift.protocol.TType.STRING, (short)8);
-  private static final org.apache.thrift.protocol.TField EXECUTION_TIME_IN_NANO_FIELD_DESC = new org.apache.thrift.protocol.TField("executionTimeInNano", org.apache.thrift.protocol.TType.I64, (short)9);
+  private static final org.apache.thrift.protocol.TField CLUSTER_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("clusterId", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField SERVER_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("serverId", org.apache.thrift.protocol.TType.STRING, (short)2);
+  private static final org.apache.thrift.protocol.TField AGENT_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("agentId", org.apache.thrift.protocol.TType.STRING, (short)3);
+  private static final org.apache.thrift.protocol.TField THREAD_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("threadName", org.apache.thrift.protocol.TType.STRING, (short)4);
+  private static final org.apache.thrift.protocol.TField THREAD_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("threadId", org.apache.thrift.protocol.TType.STRING, (short)5);
+  private static final org.apache.thrift.protocol.TField CLASS_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("className", org.apache.thrift.protocol.TType.STRING, (short)6);
+  private static final org.apache.thrift.protocol.TField METHOD_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("methodName", org.apache.thrift.protocol.TType.STRING, (short)7);
+  private static final org.apache.thrift.protocol.TField PARAMETERS_FIELD_DESC = new org.apache.thrift.protocol.TField("parameters", org.apache.thrift.protocol.TType.MAP, (short)8);
+  private static final org.apache.thrift.protocol.TField RETURN_VALUE_FIELD_DESC = new org.apache.thrift.protocol.TField("returnValue", org.apache.thrift.protocol.TType.STRING, (short)9);
+  private static final org.apache.thrift.protocol.TField THROWABLE_TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("throwableType", org.apache.thrift.protocol.TType.STRING, (short)10);
+  private static final org.apache.thrift.protocol.TField EXECUTION_TIME_IN_NANO_FIELD_DESC = new org.apache.thrift.protocol.TField("executionTimeInNano", org.apache.thrift.protocol.TType.I64, (short)11);
 
+  public String clusterId;
+  public String serverId;
   public String agentId;
   public String threadName;
-  public String correlationId;
+  public String threadId;
   public String className;
   public String methodName;
-  public Map<String,ByteBuffer> parameters;
+  public Map<String,String> parameters;
   public String returnValue;
   public String throwableType;
   public long executionTimeInNano;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-    AGENT_ID((short)1, "agentId"),
-    THREAD_NAME((short)2, "threadName"),
-    CORRELATION_ID((short)3, "correlationId"),
-    CLASS_NAME((short)4, "className"),
-    METHOD_NAME((short)5, "methodName"),
-    PARAMETERS((short)6, "parameters"),
-    RETURN_VALUE((short)7, "returnValue"),
-    THROWABLE_TYPE((short)8, "throwableType"),
-    EXECUTION_TIME_IN_NANO((short)9, "executionTimeInNano");
+    CLUSTER_ID((short)1, "clusterId"),
+    SERVER_ID((short)2, "serverId"),
+    AGENT_ID((short)3, "agentId"),
+    THREAD_NAME((short)4, "threadName"),
+    THREAD_ID((short)5, "threadId"),
+    CLASS_NAME((short)6, "className"),
+    METHOD_NAME((short)7, "methodName"),
+    PARAMETERS((short)8, "parameters"),
+    RETURN_VALUE((short)9, "returnValue"),
+    THROWABLE_TYPE((short)10, "throwableType"),
+    EXECUTION_TIME_IN_NANO((short)11, "executionTimeInNano");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -68,23 +74,27 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
      */
     public static _Fields findByThriftId(int fieldId) {
       switch(fieldId) {
-        case 1: // AGENT_ID
+        case 1: // CLUSTER_ID
+          return CLUSTER_ID;
+        case 2: // SERVER_ID
+          return SERVER_ID;
+        case 3: // AGENT_ID
           return AGENT_ID;
-        case 2: // THREAD_NAME
+        case 4: // THREAD_NAME
           return THREAD_NAME;
-        case 3: // CORRELATION_ID
-          return CORRELATION_ID;
-        case 4: // CLASS_NAME
+        case 5: // THREAD_ID
+          return THREAD_ID;
+        case 6: // CLASS_NAME
           return CLASS_NAME;
-        case 5: // METHOD_NAME
+        case 7: // METHOD_NAME
           return METHOD_NAME;
-        case 6: // PARAMETERS
+        case 8: // PARAMETERS
           return PARAMETERS;
-        case 7: // RETURN_VALUE
+        case 9: // RETURN_VALUE
           return RETURN_VALUE;
-        case 8: // THROWABLE_TYPE
+        case 10: // THROWABLE_TYPE
           return THROWABLE_TYPE;
-        case 9: // EXECUTION_TIME_IN_NANO
+        case 11: // EXECUTION_TIME_IN_NANO
           return EXECUTION_TIME_IN_NANO;
         default:
           return null;
@@ -132,11 +142,15 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
   public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
     Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.CLUSTER_ID, new org.apache.thrift.meta_data.FieldMetaData("clusterId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.SERVER_ID, new org.apache.thrift.meta_data.FieldMetaData("serverId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     tmpMap.put(_Fields.AGENT_ID, new org.apache.thrift.meta_data.FieldMetaData("agentId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     tmpMap.put(_Fields.THREAD_NAME, new org.apache.thrift.meta_data.FieldMetaData("threadName", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.CORRELATION_ID, new org.apache.thrift.meta_data.FieldMetaData("correlationId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+    tmpMap.put(_Fields.THREAD_ID, new org.apache.thrift.meta_data.FieldMetaData("threadId", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     tmpMap.put(_Fields.CLASS_NAME, new org.apache.thrift.meta_data.FieldMetaData("className", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
@@ -145,7 +159,7 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
     tmpMap.put(_Fields.PARAMETERS, new org.apache.thrift.meta_data.FieldMetaData("parameters", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
             new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), 
-            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING            , true))));
+            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
     tmpMap.put(_Fields.RETURN_VALUE, new org.apache.thrift.meta_data.FieldMetaData("returnValue", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     tmpMap.put(_Fields.THROWABLE_TYPE, new org.apache.thrift.meta_data.FieldMetaData("throwableType", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
@@ -160,18 +174,22 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
   }
 
   public MethodExecution(
+    String clusterId,
+    String serverId,
     String agentId,
     String threadName,
-    String correlationId,
+    String threadId,
     String className,
     String methodName,
-    Map<String,ByteBuffer> parameters,
+    Map<String,String> parameters,
     long executionTimeInNano)
   {
     this();
+    this.clusterId = clusterId;
+    this.serverId = serverId;
     this.agentId = agentId;
     this.threadName = threadName;
-    this.correlationId = correlationId;
+    this.threadId = threadId;
     this.className = className;
     this.methodName = methodName;
     this.parameters = parameters;
@@ -185,14 +203,20 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
   public MethodExecution(MethodExecution other) {
     __isset_bit_vector.clear();
     __isset_bit_vector.or(other.__isset_bit_vector);
+    if (other.isSetClusterId()) {
+      this.clusterId = other.clusterId;
+    }
+    if (other.isSetServerId()) {
+      this.serverId = other.serverId;
+    }
     if (other.isSetAgentId()) {
       this.agentId = other.agentId;
     }
     if (other.isSetThreadName()) {
       this.threadName = other.threadName;
     }
-    if (other.isSetCorrelationId()) {
-      this.correlationId = other.correlationId;
+    if (other.isSetThreadId()) {
+      this.threadId = other.threadId;
     }
     if (other.isSetClassName()) {
       this.className = other.className;
@@ -201,16 +225,15 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
       this.methodName = other.methodName;
     }
     if (other.isSetParameters()) {
-      Map<String,ByteBuffer> __this__parameters = new HashMap<String,ByteBuffer>();
-      for (Map.Entry<String, ByteBuffer> other_element : other.parameters.entrySet()) {
+      Map<String,String> __this__parameters = new HashMap<String,String>();
+      for (Map.Entry<String, String> other_element : other.parameters.entrySet()) {
 
         String other_element_key = other_element.getKey();
-        ByteBuffer other_element_value = other_element.getValue();
+        String other_element_value = other_element.getValue();
 
         String __this__parameters_copy_key = other_element_key;
 
-        ByteBuffer __this__parameters_copy_value = org.apache.thrift.TBaseHelper.copyBinary(other_element_value);
-;
+        String __this__parameters_copy_value = other_element_value;
 
         __this__parameters.put(__this__parameters_copy_key, __this__parameters_copy_value);
       }
@@ -231,9 +254,11 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
 
   @Override
   public void clear() {
+    this.clusterId = null;
+    this.serverId = null;
     this.agentId = null;
     this.threadName = null;
-    this.correlationId = null;
+    this.threadId = null;
     this.className = null;
     this.methodName = null;
     this.parameters = null;
@@ -241,6 +266,54 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
     this.throwableType = null;
     setExecutionTimeInNanoIsSet(false);
     this.executionTimeInNano = 0;
+  }
+
+  public String getClusterId() {
+    return this.clusterId;
+  }
+
+  public MethodExecution setClusterId(String clusterId) {
+    this.clusterId = clusterId;
+    return this;
+  }
+
+  public void unsetClusterId() {
+    this.clusterId = null;
+  }
+
+  /** Returns true if field clusterId is set (has been assigned a value) and false otherwise */
+  public boolean isSetClusterId() {
+    return this.clusterId != null;
+  }
+
+  public void setClusterIdIsSet(boolean value) {
+    if (!value) {
+      this.clusterId = null;
+    }
+  }
+
+  public String getServerId() {
+    return this.serverId;
+  }
+
+  public MethodExecution setServerId(String serverId) {
+    this.serverId = serverId;
+    return this;
+  }
+
+  public void unsetServerId() {
+    this.serverId = null;
+  }
+
+  /** Returns true if field serverId is set (has been assigned a value) and false otherwise */
+  public boolean isSetServerId() {
+    return this.serverId != null;
+  }
+
+  public void setServerIdIsSet(boolean value) {
+    if (!value) {
+      this.serverId = null;
+    }
   }
 
   public String getAgentId() {
@@ -291,27 +364,27 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
     }
   }
 
-  public String getCorrelationId() {
-    return this.correlationId;
+  public String getThreadId() {
+    return this.threadId;
   }
 
-  public MethodExecution setCorrelationId(String correlationId) {
-    this.correlationId = correlationId;
+  public MethodExecution setThreadId(String threadId) {
+    this.threadId = threadId;
     return this;
   }
 
-  public void unsetCorrelationId() {
-    this.correlationId = null;
+  public void unsetThreadId() {
+    this.threadId = null;
   }
 
-  /** Returns true if field correlationId is set (has been assigned a value) and false otherwise */
-  public boolean isSetCorrelationId() {
-    return this.correlationId != null;
+  /** Returns true if field threadId is set (has been assigned a value) and false otherwise */
+  public boolean isSetThreadId() {
+    return this.threadId != null;
   }
 
-  public void setCorrelationIdIsSet(boolean value) {
+  public void setThreadIdIsSet(boolean value) {
     if (!value) {
-      this.correlationId = null;
+      this.threadId = null;
     }
   }
 
@@ -367,18 +440,18 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
     return (this.parameters == null) ? 0 : this.parameters.size();
   }
 
-  public void putToParameters(String key, ByteBuffer val) {
+  public void putToParameters(String key, String val) {
     if (this.parameters == null) {
-      this.parameters = new HashMap<String,ByteBuffer>();
+      this.parameters = new HashMap<String,String>();
     }
     this.parameters.put(key, val);
   }
 
-  public Map<String,ByteBuffer> getParameters() {
+  public Map<String,String> getParameters() {
     return this.parameters;
   }
 
-  public MethodExecution setParameters(Map<String,ByteBuffer> parameters) {
+  public MethodExecution setParameters(Map<String,String> parameters) {
     this.parameters = parameters;
     return this;
   }
@@ -471,6 +544,22 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
 
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
+    case CLUSTER_ID:
+      if (value == null) {
+        unsetClusterId();
+      } else {
+        setClusterId((String)value);
+      }
+      break;
+
+    case SERVER_ID:
+      if (value == null) {
+        unsetServerId();
+      } else {
+        setServerId((String)value);
+      }
+      break;
+
     case AGENT_ID:
       if (value == null) {
         unsetAgentId();
@@ -487,11 +576,11 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
       }
       break;
 
-    case CORRELATION_ID:
+    case THREAD_ID:
       if (value == null) {
-        unsetCorrelationId();
+        unsetThreadId();
       } else {
-        setCorrelationId((String)value);
+        setThreadId((String)value);
       }
       break;
 
@@ -515,7 +604,7 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
       if (value == null) {
         unsetParameters();
       } else {
-        setParameters((Map<String,ByteBuffer>)value);
+        setParameters((Map<String,String>)value);
       }
       break;
 
@@ -548,14 +637,20 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
 
   public Object getFieldValue(_Fields field) {
     switch (field) {
+    case CLUSTER_ID:
+      return getClusterId();
+
+    case SERVER_ID:
+      return getServerId();
+
     case AGENT_ID:
       return getAgentId();
 
     case THREAD_NAME:
       return getThreadName();
 
-    case CORRELATION_ID:
-      return getCorrelationId();
+    case THREAD_ID:
+      return getThreadId();
 
     case CLASS_NAME:
       return getClassName();
@@ -586,12 +681,16 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
     }
 
     switch (field) {
+    case CLUSTER_ID:
+      return isSetClusterId();
+    case SERVER_ID:
+      return isSetServerId();
     case AGENT_ID:
       return isSetAgentId();
     case THREAD_NAME:
       return isSetThreadName();
-    case CORRELATION_ID:
-      return isSetCorrelationId();
+    case THREAD_ID:
+      return isSetThreadId();
     case CLASS_NAME:
       return isSetClassName();
     case METHOD_NAME:
@@ -621,6 +720,24 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
     if (that == null)
       return false;
 
+    boolean this_present_clusterId = true && this.isSetClusterId();
+    boolean that_present_clusterId = true && that.isSetClusterId();
+    if (this_present_clusterId || that_present_clusterId) {
+      if (!(this_present_clusterId && that_present_clusterId))
+        return false;
+      if (!this.clusterId.equals(that.clusterId))
+        return false;
+    }
+
+    boolean this_present_serverId = true && this.isSetServerId();
+    boolean that_present_serverId = true && that.isSetServerId();
+    if (this_present_serverId || that_present_serverId) {
+      if (!(this_present_serverId && that_present_serverId))
+        return false;
+      if (!this.serverId.equals(that.serverId))
+        return false;
+    }
+
     boolean this_present_agentId = true && this.isSetAgentId();
     boolean that_present_agentId = true && that.isSetAgentId();
     if (this_present_agentId || that_present_agentId) {
@@ -639,12 +756,12 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
         return false;
     }
 
-    boolean this_present_correlationId = true && this.isSetCorrelationId();
-    boolean that_present_correlationId = true && that.isSetCorrelationId();
-    if (this_present_correlationId || that_present_correlationId) {
-      if (!(this_present_correlationId && that_present_correlationId))
+    boolean this_present_threadId = true && this.isSetThreadId();
+    boolean that_present_threadId = true && that.isSetThreadId();
+    if (this_present_threadId || that_present_threadId) {
+      if (!(this_present_threadId && that_present_threadId))
         return false;
-      if (!this.correlationId.equals(that.correlationId))
+      if (!this.threadId.equals(that.threadId))
         return false;
     }
 
@@ -718,6 +835,26 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
     int lastComparison = 0;
     MethodExecution typedOther = (MethodExecution)other;
 
+    lastComparison = Boolean.valueOf(isSetClusterId()).compareTo(typedOther.isSetClusterId());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetClusterId()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.clusterId, typedOther.clusterId);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetServerId()).compareTo(typedOther.isSetServerId());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetServerId()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.serverId, typedOther.serverId);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
     lastComparison = Boolean.valueOf(isSetAgentId()).compareTo(typedOther.isSetAgentId());
     if (lastComparison != 0) {
       return lastComparison;
@@ -738,12 +875,12 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetCorrelationId()).compareTo(typedOther.isSetCorrelationId());
+    lastComparison = Boolean.valueOf(isSetThreadId()).compareTo(typedOther.isSetThreadId());
     if (lastComparison != 0) {
       return lastComparison;
     }
-    if (isSetCorrelationId()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.correlationId, typedOther.correlationId);
+    if (isSetThreadId()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.threadId, typedOther.threadId);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -825,52 +962,66 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
         break;
       }
       switch (field.id) {
-        case 1: // AGENT_ID
+        case 1: // CLUSTER_ID
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
+            this.clusterId = iprot.readString();
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case 2: // SERVER_ID
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
+            this.serverId = iprot.readString();
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case 3: // AGENT_ID
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.agentId = iprot.readString();
           } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
-        case 2: // THREAD_NAME
+        case 4: // THREAD_NAME
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.threadName = iprot.readString();
           } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
-        case 3: // CORRELATION_ID
+        case 5: // THREAD_ID
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
-            this.correlationId = iprot.readString();
+            this.threadId = iprot.readString();
           } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
-        case 4: // CLASS_NAME
+        case 6: // CLASS_NAME
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.className = iprot.readString();
           } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
-        case 5: // METHOD_NAME
+        case 7: // METHOD_NAME
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.methodName = iprot.readString();
           } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
-        case 6: // PARAMETERS
+        case 8: // PARAMETERS
           if (field.type == org.apache.thrift.protocol.TType.MAP) {
             {
               org.apache.thrift.protocol.TMap _map0 = iprot.readMapBegin();
-              this.parameters = new HashMap<String,ByteBuffer>(2*_map0.size);
+              this.parameters = new HashMap<String,String>(2*_map0.size);
               for (int _i1 = 0; _i1 < _map0.size; ++_i1)
               {
                 String _key2;
-                ByteBuffer _val3;
+                String _val3;
                 _key2 = iprot.readString();
-                _val3 = iprot.readBinary();
+                _val3 = iprot.readString();
                 this.parameters.put(_key2, _val3);
               }
               iprot.readMapEnd();
@@ -879,21 +1030,21 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
-        case 7: // RETURN_VALUE
+        case 9: // RETURN_VALUE
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.returnValue = iprot.readString();
           } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
-        case 8: // THROWABLE_TYPE
+        case 10: // THROWABLE_TYPE
           if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.throwableType = iprot.readString();
           } else { 
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
-        case 9: // EXECUTION_TIME_IN_NANO
+        case 11: // EXECUTION_TIME_IN_NANO
           if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.executionTimeInNano = iprot.readI64();
             setExecutionTimeInNanoIsSet(true);
@@ -916,6 +1067,16 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
+    if (this.clusterId != null) {
+      oprot.writeFieldBegin(CLUSTER_ID_FIELD_DESC);
+      oprot.writeString(this.clusterId);
+      oprot.writeFieldEnd();
+    }
+    if (this.serverId != null) {
+      oprot.writeFieldBegin(SERVER_ID_FIELD_DESC);
+      oprot.writeString(this.serverId);
+      oprot.writeFieldEnd();
+    }
     if (this.agentId != null) {
       oprot.writeFieldBegin(AGENT_ID_FIELD_DESC);
       oprot.writeString(this.agentId);
@@ -926,9 +1087,9 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
       oprot.writeString(this.threadName);
       oprot.writeFieldEnd();
     }
-    if (this.correlationId != null) {
-      oprot.writeFieldBegin(CORRELATION_ID_FIELD_DESC);
-      oprot.writeString(this.correlationId);
+    if (this.threadId != null) {
+      oprot.writeFieldBegin(THREAD_ID_FIELD_DESC);
+      oprot.writeString(this.threadId);
       oprot.writeFieldEnd();
     }
     if (this.className != null) {
@@ -945,10 +1106,10 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
       oprot.writeFieldBegin(PARAMETERS_FIELD_DESC);
       {
         oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, this.parameters.size()));
-        for (Map.Entry<String, ByteBuffer> _iter4 : this.parameters.entrySet())
+        for (Map.Entry<String, String> _iter4 : this.parameters.entrySet())
         {
           oprot.writeString(_iter4.getKey());
-          oprot.writeBinary(_iter4.getValue());
+          oprot.writeString(_iter4.getValue());
         }
         oprot.writeMapEnd();
       }
@@ -980,6 +1141,22 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
     StringBuilder sb = new StringBuilder("MethodExecution(");
     boolean first = true;
 
+    sb.append("clusterId:");
+    if (this.clusterId == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.clusterId);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("serverId:");
+    if (this.serverId == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.serverId);
+    }
+    first = false;
+    if (!first) sb.append(", ");
     sb.append("agentId:");
     if (this.agentId == null) {
       sb.append("null");
@@ -996,11 +1173,11 @@ public class MethodExecution implements org.apache.thrift.TBase<MethodExecution,
     }
     first = false;
     if (!first) sb.append(", ");
-    sb.append("correlationId:");
-    if (this.correlationId == null) {
+    sb.append("threadId:");
+    if (this.threadId == null) {
       sb.append("null");
     } else {
-      sb.append(this.correlationId);
+      sb.append(this.threadId);
     }
     first = false;
     if (!first) sb.append(", ");
