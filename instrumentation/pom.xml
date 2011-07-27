@@ -8,18 +8,9 @@
         <artifactId>log-parent</artifactId>
         <version>0.1-SNAPSHOT</version>
     </parent>
-<<<<<<< HEAD
-=======
-
->>>>>>> dev-sampling
     <groupId>fr.xebia.log</groupId>
     <artifactId>instrumentation</artifactId>
     <version>0.1-SNAPSHOT</version>
-
-<<<<<<< HEAD
-
-=======
->>>>>>> dev-sampling
     <dependencies>
 
         <!-- Other module dependency -->
@@ -53,31 +44,4 @@
         </dependency>
 
     </dependencies>
-<<<<<<< HEAD
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.3.1</version>
-                <configuration>
-                    <useDefaultManifestFile>true</useDefaultManifestFile>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.mycila.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
-                <configuration>
-                    <header>src/etc/header.txt</header>
-                    <includes>
-                        <include>**/*.java</include>
-                    </includes>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-=======
->>>>>>> dev-sampling
 </project>

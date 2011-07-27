@@ -22,8 +22,6 @@
             <version>${version}</version>
         </dependency>
     </dependencies>
-<<<<<<< HEAD
-=======
 
     <build>
         <plugins>
@@ -37,5 +35,4 @@
             </plugin>
         </plugins>
     </build>
->>>>>>> dev-sampling
 </project>
