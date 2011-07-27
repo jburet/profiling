@@ -14,6 +14,7 @@ public class ClassInstrumentationConfiguration {
         this.configuration = configuration;
     }
 
+
     public ClassPattern getPatternForLog(){
         return configuration.getClassToInstrument();
     }

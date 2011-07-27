@@ -8,11 +8,18 @@
         <artifactId>log-parent</artifactId>
         <version>0.1-SNAPSHOT</version>
     </parent>
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev-sampling
     <groupId>fr.xebia.log</groupId>
     <artifactId>instrumentation</artifactId>
     <version>0.1-SNAPSHOT</version>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev-sampling
     <dependencies>
 
         <!-- Other module dependency -->
@@ -46,6 +53,7 @@
         </dependency>
 
     </dependencies>
+<<<<<<< HEAD
 
     <build>
         <plugins>
@@ -70,4 +78,6 @@
         </plugins>
     </build>
 
+=======
+>>>>>>> dev-sampling
 </project>

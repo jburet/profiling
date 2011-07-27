@@ -1,18 +1,17 @@
 package fr.xebia.profiling.interceptor;
 
-
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.AdviceAdapter;
-
 import java.util.UUID;
 
 /**
  * Log enter method at the beginning of the code
  * Log exit method for each return in code
  */
+
 public class InterceptorMethodVisitor extends AdviceAdapter {
 
     private String[] argTypesString;
@@ -23,8 +22,6 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
     private String argDesc;
     private ClassWriter cw;
     private int timerLocalVar;
-    private int threadNameVar;
-    private int uuidVar;
 
     /**
      * Constructs a new {@link org.objectweb.asm.MethodAdapter} object.
@@ -56,7 +53,8 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
     }
 
     @Override
-    public void onMethodEnter() {
+
+    public void visitCode() {
         // -- Timer
         mv.visitMethodInsn(INVOKESTATIC, "java/lang/System",
                 "nanoTime", "()J");
@@ -66,18 +64,15 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
         // add method name, classname, threadname, correlation id in operand stack
         mv.visitLdcInsn(className);
         mv.visitLdcInsn(methodName);
+
+        
         // Thread name
         mv.visitMethodInsn(INVOKESTATIC, "java/lang/Thread", "currentThread", "()Ljava/lang/Thread;");
         mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Thread", "getName", "()Ljava/lang/String;");
-        mv.visitInsn(DUP);
-        mv.visitVarInsn(Opcodes.ASTORE, threadNameVar);
 
-        // Generate a new identifier
-        UUID.randomUUID().toString();
-        mv.visitMethodInsn(INVOKESTATIC, "java/util/UUID", "randomUUID", "()Ljava/util/UUID;");
-        mv.visitMethodInsn(INVOKEVIRTUAL, "java/util/UUID", "toString", "()Ljava/lang/String;");
-        mv.visitInsn(DUP);
-        mv.visitVarInsn(Opcodes.ASTORE, uuidVar);
+        // Thread identifier
+        mv.visitMethodInsn(INVOKESTATIC, "java/lang/Thread", "currentThread", "()Ljava/lang/Thread;");
+        mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Thread", "getId", "()J;");
 
         // -- Manage arg type
 
@@ -205,39 +200,5 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
             mv.visitInsn(Opcodes.AASTORE);
         }
 
-        // add arg value in operand stack
-        //mv.visitIntInsn(Opcodes.ASTORE, argTypes.length + 1);
-        //mv.visitIntInsn(Opcodes.ALOAD, argTypes.length + 1);
-
-
-        // Log enter in code
-        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "fr/xebia/profiling/interceptor/Interceptor", "enterMethod", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[Ljava/lang/Class;[Ljava/lang/Object;)V");
-        // delagate visit code
-        mv.visitCode();
-    }
-
-    @Override
-    protected void onMethodExit(int opcode) {
-        // add method name in operand stack
-        mv.visitLdcInsn(className);
-        mv.visitLdcInsn(methodName);
-        mv.visitMethodInsn(INVOKESTATIC, "java/lang/System",
-                "nanoTime", "()J");
-        mv.visitVarInsn(LLOAD, timerLocalVar);
-        mv.visitInsn(LSUB);
-        // Log exit method in code
-        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "fr/xebia/profiling/interceptor/Interceptor", "exitMethod", "(Ljava/lang/String;Ljava/lang/String;J)V");
-
-    }
-
-    @Override
-    public void visitMaxs(int maxStack, int maxLocals) {
-        mv.visitMaxs(maxStack + 3, maxLocals + 0);
-    }
-
-    @Override
-    public void visitEnd() {
-        mv.visitEnd();
     }
 }
-

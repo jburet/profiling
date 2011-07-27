@@ -5,10 +5,6 @@ package fr.xebia.log.configuration;
  */
 public class ClassPattern {
 
-    public boolean isClassMatch(Class clazz){
-        return clazz.getPackage().getName().startsWith("fr.xebia.profiling.testclasses.SimpleClasses");
-    }
-
     public boolean isClassNameMatch(String classname){
         return classname.startsWith("fr/xebia/profiling/testclasses/SimpleClasses");
     }
