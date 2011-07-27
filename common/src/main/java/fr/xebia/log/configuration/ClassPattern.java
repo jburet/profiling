@@ -1,4 +1,4 @@
-package fr.xebia.profiling.configuration;
+package fr.xebia.log.configuration;
 
 /**
  *

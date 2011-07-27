@@ -1,6 +1,6 @@
 package fr.xebia.profiling.agent;
 
-import fr.xebia.profiling.configuration.ClassPattern;
+import fr.xebia.log.configuration.ClassPattern;
 import fr.xebia.profiling.interceptor.InterceptorRegistry;
 import fr.xebia.profiling.interceptor.InterceptorTransformer;
 import fr.xebia.profiling.interceptor.Transformer;

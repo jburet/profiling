@@ -9,17 +9,27 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>logging-agent</artifactId>
-    <description>
-        Application for adding logging at runtime with a java agent.
-        Send log to server with thrift.
-    </description>
+    <artifactId>common</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>fr.xebia.log</groupId>
-            <artifactId>instrumentation</artifactId>
-            <version>${version}</version>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.1.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>de.huxhorn.lilith</groupId>
+            <artifactId>logback</artifactId>
+            <version>0.9.41</version>
         </dependency>
     </dependencies>
+
+
 </project>
