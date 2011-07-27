@@ -6,7 +6,9 @@ import java.util.List;
 public class Interceptor {
 
     private static List<AdviceMethodCallInterceptor> methodsInterceptorAdvices = new ArrayList<AdviceMethodCallInterceptor>();
+
     private static List<MethodExecutedCallInterceptor> methodExecutedInterceptor = new ArrayList<MethodExecutedCallInterceptor>();
+
     private static List<ClassLoadingInterceptor> classLoadingInterceptors = new ArrayList<ClassLoadingInterceptor>();
 
     public static void enterMethod(String className, String methodCall, String threadName, String identifier, Class[] paramType, Object[] paramValue) {

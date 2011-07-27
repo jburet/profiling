@@ -6,7 +6,7 @@ public class InterceptorRegistry {
         Interceptor.registerMethodInterceptor(adviceMethodCallInterceptor);
     }
 
-        public static void registerMethodInterceptor(MethodExecutedCallInterceptor methodExecutedCallInterceptor) {
+    public static void registerMethodInterceptor(MethodExecutedCallInterceptor methodExecutedCallInterceptor) {
         Interceptor.registerMethodInterceptor(methodExecutedCallInterceptor);
     }
 

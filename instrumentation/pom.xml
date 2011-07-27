@@ -8,10 +8,10 @@
         <artifactId>log-parent</artifactId>
         <version>0.1-SNAPSHOT</version>
     </parent>
+
     <groupId>fr.xebia.log</groupId>
     <artifactId>instrumentation</artifactId>
     <version>0.1-SNAPSHOT</version>
-
 
     <dependencies>
 
@@ -46,5 +46,4 @@
         </dependency>
 
     </dependencies>
-
 </project>

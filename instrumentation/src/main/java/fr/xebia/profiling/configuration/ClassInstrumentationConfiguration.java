@@ -8,13 +8,14 @@ import fr.xebia.log.configuration.InstrumentationConfiguration;
  */
 public class ClassInstrumentationConfiguration {
 
+
     private final InstrumentationConfiguration configuration;
 
     public ClassInstrumentationConfiguration(InstrumentationConfiguration configuration) {
         this.configuration = configuration;
     }
 
-    public ClassPattern getPatternForLog(){
+    public ClassPattern getPatternForLog() {
         return configuration.getClassToInstrument();
     }
 
