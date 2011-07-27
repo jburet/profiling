@@ -28,9 +28,8 @@ public class MainAgent {
 
 
     private static void prepareInstrumentation(Instrumentation inst) {
-        ClassInstrumentationConfiguration classInstrumentationConfiguration = new ClassInstrumentationConfiguration(new ConfigurationByServer());
+        ClassInstrumentationConfiguration classInstrumentationConfiguration = new ClassInstrumentationConfiguration(new ConfigurationByFile("src/main/conf/logging-agent.properties"));
         InstrumentationManager instrumentationManager = new InstrumentationManager(inst, classInstrumentationConfiguration.getPatternForLog());
-
     }
 
 
