@@ -5,6 +5,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.AdviceAdapter;
+
 import java.util.UUID;
 
 /**
@@ -22,6 +23,8 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
     private String argDesc;
     private ClassWriter cw;
     private int timerLocalVar;
+    private int argTypeVar;
+    private int argValueVar;
 
     /**
      * Constructs a new {@link org.objectweb.asm.MethodAdapter} object.
@@ -53,26 +56,12 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
     }
 
     @Override
-
-    public void visitCode() {
+    public void onMethodEnter() {
         // -- Timer
         mv.visitMethodInsn(INVOKESTATIC, "java/lang/System",
                 "nanoTime", "()J");
         timerLocalVar = this.newLocal(Type.LONG_TYPE);
         mv.visitVarInsn(Opcodes.LSTORE, timerLocalVar);
-
-        // add method name, classname, threadname, correlation id in operand stack
-        mv.visitLdcInsn(className);
-        mv.visitLdcInsn(methodName);
-
-        
-        // Thread name
-        mv.visitMethodInsn(INVOKESTATIC, "java/lang/Thread", "currentThread", "()Ljava/lang/Thread;");
-        mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Thread", "getName", "()Ljava/lang/String;");
-
-        // Thread identifier
-        mv.visitMethodInsn(INVOKESTATIC, "java/lang/Thread", "currentThread", "()Ljava/lang/Thread;");
-        mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Thread", "getId", "()J;");
 
         // -- Manage arg type
 
@@ -136,6 +125,8 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
             mv.visitLdcInsn(argTypes[i]);
             mv.visitInsn(Opcodes.AASTORE);
         }
+        argTypeVar = this.newLocal(Type.getType(Class[].class));
+        mv.visitVarInsn(Opcodes.LSTORE, argTypeVar);
 
         // -- Manage arg value
         // Push array size
@@ -199,6 +190,60 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
             mv.visitIntInsn(Opcodes.ALOAD, i + 1);
             mv.visitInsn(Opcodes.AASTORE);
         }
+        argValueVar = this.newLocal(Type.getType(Object[].class));
+        mv.visitVarInsn(Opcodes.LSTORE, argValueVar);
+    }
 
+    @Override
+    protected void onMethodExit(int opcode) {
+        // Dup value if exist or put null
+        if (opcode == RETURN) {
+            visitInsn(ACONST_NULL);
+        } else if (opcode == ARETURN || opcode == ATHROW) {
+            dup();
+        } else {
+            if (opcode == LRETURN || opcode == DRETURN) {
+                dup2();
+            } else {
+                dup();
+            }
+        }
+        // Reload start time from localvariable
+        mv.visitVarInsn(Opcodes.ALOAD, timerLocalVar);
+
+        // End time
+        mv.visitMethodInsn(INVOKESTATIC, "java/lang/System",
+                "nanoTime", "()J");
+
+        // add method name, classname, threadname, correlation id in operand stack
+        mv.visitLdcInsn(className);
+        mv.visitLdcInsn(methodName);
+        // Thread name
+        mv.visitMethodInsn(INVOKESTATIC, "java/lang/Thread", "currentThread", "()Ljava/lang/Thread;");
+        mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Thread", "getName", "()Ljava/lang/String;");
+
+        // Thread identifier
+        mv.visitMethodInsn(INVOKESTATIC, "java/lang/Thread", "currentThread", "()Ljava/lang/Thread;");
+        mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Thread", "getId", "()J;");
+
+        // Reload argtype and value in stack
+        mv.visitVarInsn(Opcodes.LLOAD, argTypeVar);
+        mv.visitVarInsn(Opcodes.LLOAD, argValueVar);
+
+        // Put return type in stack
+        mv.visitLdcInsn(returnType);
+
+        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "fr/xebia/profiling/interceptor/Interceptor", "methodExecuted", "(" +
+                "Ljava/lang/Object;" +
+                "J;" +
+                "J;" +
+                "Ljava/lang/String;" +
+                "Ljava/lang/String;" +
+                "Ljava/lang/String;" +
+                "J;" +
+                "[Ljava/lang/Class;" +
+                "[Ljava/lang/Object;" +
+                "Ljava/lang/Class;" +
+                ")V");
     }
 }

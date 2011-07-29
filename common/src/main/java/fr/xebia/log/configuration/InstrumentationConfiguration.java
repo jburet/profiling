@@ -5,6 +5,6 @@ package fr.xebia.log.configuration;
  */
 public interface InstrumentationConfiguration {
 
-    public ClassPattern getClassToInstrument();
+    public RegExpClassPattern getClassToInstrument();
 
 }
