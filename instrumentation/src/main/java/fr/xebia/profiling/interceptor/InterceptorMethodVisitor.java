@@ -15,7 +15,6 @@ import java.util.UUID;
 
 public class InterceptorMethodVisitor extends AdviceAdapter {
 
-    private String[] argTypesString;
     private Type[] argTypes;
     private Type returnType;
     private String className;
@@ -39,7 +38,6 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
     public InterceptorMethodVisitor(MethodVisitor mv, int access, String name, String desc, String signature, String[] exceptions, ClassWriter cw, String className) {
         super(mv, access, name, desc);
         this.argTypes = Type.getArgumentTypes(desc);
-        this.argTypesString = getStringsType(argTypes);
         this.returnType = Type.getReturnType(desc);
         this.className = className;
         this.methodName = name;
@@ -93,7 +91,7 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
 
         }
         mv.visitTypeInsn(Opcodes.ANEWARRAY, Type.getType(Class.class).getInternalName());
-        for (int i = 0; i < argTypesString.length; i++) {
+        for (int i = 0; i < argTypes.length; i++) {
             // Duplicate parameter
             mv.visitInsn(Opcodes.DUP);
 
@@ -121,12 +119,11 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
                     mv.visitIntInsn(Opcodes.BIPUSH, i);
                     break;
             }
-
-            mv.visitLdcInsn(argTypes[i]);
+            mv.visitLdcInsn(convertPrimitiveTypeToObjectType(argTypes[i]));
             mv.visitInsn(Opcodes.AASTORE);
         }
         argTypeVar = this.newLocal(Type.getType(Class[].class));
-        mv.visitVarInsn(Opcodes.LSTORE, argTypeVar);
+        mv.visitVarInsn(Opcodes.ASTORE, argTypeVar);
 
         // -- Manage arg value
         // Push array size
@@ -158,6 +155,7 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
         mv.visitTypeInsn(Opcodes.ANEWARRAY, Type.getType(Object.class).getInternalName());
 
         for (int i = 0; i < argTypes.length; i++) {
+            Type currentType = argTypes[i];
             // Duplicate parameter
             mv.visitInsn(Opcodes.DUP);
 
@@ -187,11 +185,34 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
             }
 
             // Load paramater
-            mv.visitIntInsn(Opcodes.ALOAD, i + 1);
+            // Manage primitive case
+            // If parameter is primitive box it to object type
+            if (currentType.equals(Type.BOOLEAN_TYPE)) {
+
+            } else if (currentType.equals(Type.CHAR_TYPE)) {
+
+            } else if (currentType.equals(Type.BYTE_TYPE)) {
+
+            } else if (currentType.equals(Type.SHORT_TYPE)) {
+
+            } else if (currentType.equals(Type.INT_TYPE)) {
+                mv.visitVarInsn(Opcodes.ILOAD, i + 1);
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Integer", "valueOf", "(I)Ljava/lang/Integer;");
+            } else if (currentType.equals(Type.LONG_TYPE)) {
+
+            } else if (currentType.equals(Type.FLOAT_TYPE)) {
+
+            } else if (currentType.equals(Type.DOUBLE_TYPE)) {
+
+            } else {
+                // Else nothing todo....
+                mv.visitVarInsn(Opcodes.ALOAD, i + 1);
+            }
+            // Store object in array
             mv.visitInsn(Opcodes.AASTORE);
         }
         argValueVar = this.newLocal(Type.getType(Object[].class));
-        mv.visitVarInsn(Opcodes.LSTORE, argValueVar);
+        mv.visitVarInsn(Opcodes.ASTORE, argValueVar);
     }
 
     @Override
@@ -209,7 +230,7 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
             }
         }
         // Reload start time from localvariable
-        mv.visitVarInsn(Opcodes.ALOAD, timerLocalVar);
+        mv.visitVarInsn(Opcodes.LLOAD, timerLocalVar);
 
         // End time
         mv.visitMethodInsn(INVOKESTATIC, "java/lang/System",
@@ -224,26 +245,51 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
 
         // Thread identifier
         mv.visitMethodInsn(INVOKESTATIC, "java/lang/Thread", "currentThread", "()Ljava/lang/Thread;");
-        mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Thread", "getId", "()J;");
+        mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Thread", "getId", "()J");
 
         // Reload argtype and value in stack
-        mv.visitVarInsn(Opcodes.LLOAD, argTypeVar);
-        mv.visitVarInsn(Opcodes.LLOAD, argValueVar);
+        mv.visitVarInsn(Opcodes.ALOAD, argTypeVar);
+        mv.visitVarInsn(Opcodes.ALOAD, argValueVar);
 
         // Put return type in stack
-        mv.visitLdcInsn(returnType);
+        // case return type is void
+        mv.visitLdcInsn(convertPrimitiveTypeToObjectType(returnType));
 
         mv.visitMethodInsn(Opcodes.INVOKESTATIC, "fr/xebia/profiling/interceptor/Interceptor", "methodExecuted", "(" +
                 "Ljava/lang/Object;" +
-                "J;" +
-                "J;" +
+                "J" +
+                "J" +
                 "Ljava/lang/String;" +
                 "Ljava/lang/String;" +
                 "Ljava/lang/String;" +
-                "J;" +
+                "J" +
                 "[Ljava/lang/Class;" +
                 "[Ljava/lang/Object;" +
                 "Ljava/lang/Class;" +
                 ")V");
     }
+
+    private Type convertPrimitiveTypeToObjectType(Type currentType) {
+        if (currentType.equals(Type.VOID_TYPE)) {
+            return Type.getType(Void.class);
+        } else if (currentType.equals(Type.BOOLEAN_TYPE)) {
+            return Type.getType(Boolean.class);
+        } else if (currentType.equals(Type.CHAR_TYPE)) {
+            return Type.getType(Character.class);
+        } else if (currentType.equals(Type.BYTE_TYPE)) {
+            return Type.getType(Byte.class);
+        } else if (currentType.equals(Type.SHORT_TYPE)) {
+            return Type.getType(Short.class);
+        } else if (currentType.equals(Type.INT_TYPE)) {
+            return Type.getType(Integer.class);
+        } else if (currentType.equals(Type.LONG_TYPE)) {
+            return Type.getType(Long.class);
+        } else if (currentType.equals(Type.FLOAT_TYPE)) {
+            return Type.getType(Float.class);
+        } else if (currentType.equals(Type.DOUBLE_TYPE)) {
+            return Type.getType(Double.class);
+        }
+        return currentType;
+    }
+
 }
