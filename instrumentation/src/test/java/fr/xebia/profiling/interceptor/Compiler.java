@@ -13,12 +13,15 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Compiler {
 
     private HashMap<String, byte[]> classCompiled = new HashMap<String, byte[]>();
 
     private ClassLoader cl = new ClassLoader() {
+
+        ConcurrentHashMap<String, Class> loadedClasses = new ConcurrentHashMap<String, Class>();
 
         public synchronized Class loadClass(String className, boolean resolveIt)
                 throws ClassNotFoundException {
@@ -32,16 +35,20 @@ public class Compiler {
             }
 
             byte[] classInByte = classCompiled.get(className);
-            loadedClass = defineClass(classInByte, 0, classInByte.length);
-            if (loadedClass == null) {
-                throw new ClassFormatError();
-            }
+            if (loadedClasses.get(className) != null) {
+                return loadedClasses.get(className);
+            } else {
+                loadedClass = defineClass(classInByte, 0, classInByte.length);
+                loadedClasses.put(className, loadedClass);
+                if (loadedClass == null) {
+                    throw new ClassFormatError();
+                }
 
-            if (resolveIt) {
-                resolveClass(loadedClass);
+                if (resolveIt) {
+                    resolveClass(loadedClass);
+                }
+                return loadedClass;
             }
-            return loadedClass;
-
         }
     };
 

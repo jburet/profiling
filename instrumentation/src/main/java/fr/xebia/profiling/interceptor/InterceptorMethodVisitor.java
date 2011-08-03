@@ -154,6 +154,8 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
         // Create an array with same size as desc
         mv.visitTypeInsn(Opcodes.ANEWARRAY, Type.getType(Object.class).getInternalName());
 
+        // offset for double and long attribute
+        int offset = 1;
         for (int i = 0; i < argTypes.length; i++) {
             Type currentType = argTypes[i];
             // Duplicate parameter
@@ -188,25 +190,34 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
             // Manage primitive case
             // If parameter is primitive box it to object type
             if (currentType.equals(Type.BOOLEAN_TYPE)) {
-
+                mv.visitVarInsn(Opcodes.ILOAD, i + offset);
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;");
             } else if (currentType.equals(Type.CHAR_TYPE)) {
-
+                mv.visitVarInsn(Opcodes.ILOAD, i + offset);
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Character", "valueOf", "(C)Ljava/lang/Character;");
             } else if (currentType.equals(Type.BYTE_TYPE)) {
-
+                mv.visitVarInsn(Opcodes.ILOAD, i + offset);
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Byte", "valueOf", "(B)Ljava/lang/Byte;");
             } else if (currentType.equals(Type.SHORT_TYPE)) {
-
+                mv.visitVarInsn(Opcodes.ILOAD, i + offset);
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Short", "valueOf", "(S)Ljava/lang/Short;");
             } else if (currentType.equals(Type.INT_TYPE)) {
-                mv.visitVarInsn(Opcodes.ILOAD, i + 1);
+                mv.visitVarInsn(Opcodes.ILOAD, i + offset);
                 mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Integer", "valueOf", "(I)Ljava/lang/Integer;");
             } else if (currentType.equals(Type.LONG_TYPE)) {
-
+                mv.visitVarInsn(Opcodes.LLOAD, i + offset);
+                offset++;
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Long", "valueOf", "(J)Ljava/lang/Long;");
             } else if (currentType.equals(Type.FLOAT_TYPE)) {
-
+                mv.visitVarInsn(Opcodes.FLOAD, i + offset);
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Float", "valueOf", "(F)Ljava/lang/Float;");
             } else if (currentType.equals(Type.DOUBLE_TYPE)) {
-
+                mv.visitVarInsn(Opcodes.DLOAD, i + offset);
+                offset++;
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Double", "valueOf", "(D)Ljava/lang/Double;");
             } else {
                 // Else nothing todo....
-                mv.visitVarInsn(Opcodes.ALOAD, i + 1);
+                mv.visitVarInsn(Opcodes.ALOAD, i + offset);
             }
             // Store object in array
             mv.visitInsn(Opcodes.AASTORE);
