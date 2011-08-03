@@ -13,11 +13,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Slf4jPerClassLogger implements MethodExecutedCallInterceptor {
     private Map<String, Logger> classLogger = new ConcurrentHashMap<String, Logger>();
 
-    @Override
 
-    public void methodExecuted(String className, String methodCall, String threadName, long threadIdentifier, String[] paramType, String[] paramValue, String returnType, String returnValue, long enterMethodTime, long exitMethodTime) {
+    @Override
+    public void methodExecuted(String className, String methodCall, String threadName, long threadIdentifier, Class[] paramType, Object[] paramValue, Class returnType, Object returnValue, long enterMethodTime, long exitMethodTime) {
         Logger logger = getOrCreateLogger(className);
-        logger.info("Method {}.{} with parameter {} of type {}, thread {}, id : {}", new Object[]{className, methodCall, constructValue(paramValue), constructType(paramType), threadName, threadIdentifier});
+                logger.info("Method {}.{} with parameter {} of type {}, thread {}, id : {}", new Object[]{className, methodCall, constructValue(paramValue), constructType(paramType), threadName, threadIdentifier});
+
     }
 
     private Logger getOrCreateLogger(String className) {
@@ -50,4 +51,5 @@ public class Slf4jPerClassLogger implements MethodExecutedCallInterceptor {
         }
         return sb.toString();
     }
+
 }

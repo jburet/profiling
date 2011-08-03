@@ -1,6 +1,6 @@
 package fr.xebia.profiling.configuration;
 
-import fr.xebia.log.configuration.ClassPattern;
+import fr.xebia.log.configuration.RegExpClassPattern;
 import fr.xebia.log.configuration.InstrumentationConfiguration;
 
 /**
@@ -15,7 +15,7 @@ public class ClassInstrumentationConfiguration {
     }
 
 
-    public ClassPattern getPatternForLog(){
+    public RegExpClassPattern getPatternForLog(){
         return configuration.getClassToInstrument();
     }
 

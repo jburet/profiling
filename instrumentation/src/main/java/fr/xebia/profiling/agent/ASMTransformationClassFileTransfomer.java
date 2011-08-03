@@ -1,6 +1,6 @@
 package fr.xebia.profiling.agent;
 
-import fr.xebia.log.configuration.ClassPattern;
+import fr.xebia.log.configuration.RegExpClassPattern;
 import fr.xebia.profiling.interceptor.Transformer;
 
 import java.lang.instrument.ClassFileTransformer;
@@ -10,11 +10,11 @@ import java.util.List;
 
 public class ASMTransformationClassFileTransfomer implements ClassFileTransformer {
 
-    private ClassPattern classPattern;
+    private RegExpClassPattern regExpClassPattern;
     private List<Transformer> transformers;
 
-    public ASMTransformationClassFileTransfomer(ClassPattern classPattern, List<Transformer> transformers) {
-        this.classPattern = classPattern;
+    public ASMTransformationClassFileTransfomer(RegExpClassPattern regExpClassPattern, List<Transformer> transformers) {
+        this.regExpClassPattern = regExpClassPattern;
         this.transformers = transformers;
     }
 
@@ -22,7 +22,7 @@ public class ASMTransformationClassFileTransfomer implements ClassFileTransforme
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
         byte[] classBuffer = classfileBuffer;
         // check if class must be tranformed
-        if (classPattern.isClassNameMatch(className)) {
+        if (regExpClassPattern.isClassNameMatch(className)) {
             // Apply all needed tranformation
             for (Transformer t : transformers) {
                 classBuffer = t.transform(classBuffer);
