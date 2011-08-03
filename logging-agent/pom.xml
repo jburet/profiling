@@ -18,8 +18,21 @@
     <dependencies>
         <dependency>
             <groupId>fr.xebia.log</groupId>
+            <artifactId>common</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.xebia.log</groupId>
             <artifactId>instrumentation</artifactId>
-            <version>${version}</version>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!-- Other module dependency -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.1.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

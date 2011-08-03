@@ -1,8 +1,14 @@
 package fr.xebia.profiling.agent;
 
+import fr.xebia.log.configuration.InstrumentationConfiguration;
 import fr.xebia.profiling.configuration.ClassInstrumentationConfiguration;
+import fr.xebia.profiling.interceptor.MethodExecutedCallInterceptor;
+import fr.xebia.profiling.module.log.slf4j.Slf4jPerClassLogger;
+import org.objectweb.asm.commons.StaticInitMerger;
 
 import java.lang.instrument.Instrumentation;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainAgent {
 
@@ -28,9 +34,21 @@ public class MainAgent {
 
 
     private static void prepareInstrumentation(Instrumentation inst) {
-        ClassInstrumentationConfiguration classInstrumentationConfiguration = new ClassInstrumentationConfiguration(new ConfigurationByFile("src/main/conf/logging-agent.properties"));
-        InstrumentationManager instrumentationManager = new InstrumentationManager(inst, classInstrumentationConfiguration.getPatternForLog());
+        // Use system properties for locate configuration file.
+        // By default use ./logging-agent.properties
+        String confFilePath = "logging-agent.properties";
+        if (System.getenv().containsKey(Environnement.CONFIGURATION_FILE)) {
+            confFilePath = System.getenv(Environnement.CONFIGURATION_FILE);
+        }
+
+        List<MethodExecutedCallInterceptor> interceptorList = new ArrayList<MethodExecutedCallInterceptor>();
+        interceptorList.add(new Slf4jPerClassLogger());
+        InstrumentationConfiguration configuration = new ConfigurationByFile(confFilePath);
+        InstrumentationManager instrumentationManager = new InstrumentationManager(inst, configuration, null, interceptorList, null);
     }
 
+    interface Environnement {
+        public static final String CONFIGURATION_FILE = "LoggingAgent.configuration.path";
+    }
 
 }

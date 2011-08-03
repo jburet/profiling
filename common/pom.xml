@@ -25,9 +25,9 @@
         </dependency>
 
         <dependency>
-            <groupId>de.huxhorn.lilith</groupId>
-            <artifactId>logback</artifactId>
-            <version>0.9.41</version>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>0.9.17</version>
         </dependency>
     </dependencies>
 

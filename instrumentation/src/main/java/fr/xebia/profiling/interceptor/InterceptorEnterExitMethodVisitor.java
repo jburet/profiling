@@ -232,9 +232,6 @@ public class InterceptorEnterExitMethodVisitor extends AdviceAdapter {
         mv.visitMaxs(maxStack + 3, maxLocals + 0);
     }
 
-    @Override
-    public void visitEnd() {
-        mv.visitEnd();
-    }
+
 }
 

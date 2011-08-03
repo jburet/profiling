@@ -24,6 +24,6 @@ public class InterceptorClassAdapter extends ClassAdapter {
 
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-        return new InterceptorEnterExitMethodVisitor(super.visitMethod(access, name, desc, signature, exceptions), access, name, desc, signature, exceptions, cw, className);
+        return new InterceptorMethodVisitor(super.visitMethod(access, name, desc, signature, exceptions), access, name, desc, signature, exceptions, cw, className);
     }
 }
