@@ -1,4 +1,4 @@
-package fr.xebia.profiling.interceptor;
+package fr.xebia.profiling.interceptor.method;
 
 
 import org.objectweb.asm.*;

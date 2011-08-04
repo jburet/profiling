@@ -1,5 +1,6 @@
 package fr.xebia.profiling.interceptor;
 
+import fr.xebia.profiling.interceptor.method.InterceptorMethodVisitor;
 import org.objectweb.asm.ClassAdapter;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;

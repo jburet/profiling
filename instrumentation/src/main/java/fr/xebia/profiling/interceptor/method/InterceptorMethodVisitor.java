@@ -1,4 +1,4 @@
-package fr.xebia.profiling.interceptor;
+package fr.xebia.profiling.interceptor.method;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
@@ -6,6 +6,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.AdviceAdapter;
 
+import java.security.PrivateKey;
 import java.util.UUID;
 
 /**
@@ -155,7 +156,8 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
         mv.visitTypeInsn(Opcodes.ANEWARRAY, Type.getType(Object.class).getInternalName());
 
         // offset for double and long attribute
-        int offset = 1;
+        // Initialized at 0 for static method and 1 for standard method (1 is this)
+        int offset = (Opcodes.ACC_STATIC & methodAccess) == 0 ? 1 : 0;
         for (int i = 0; i < argTypes.length; i++) {
             Type currentType = argTypes[i];
             // Duplicate parameter
@@ -234,10 +236,28 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
         } else if (opcode == ARETURN || opcode == ATHROW) {
             dup();
         } else {
+            // Case of primitive return. Convert primitive rto object
             if (opcode == LRETURN || opcode == DRETURN) {
                 dup2();
             } else {
                 dup();
+            }
+            if (returnType.equals(Type.BOOLEAN_TYPE)) {
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;");
+            } else if (returnType.equals(Type.BYTE_TYPE)) {
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Byte", "valueOf", "(B)Ljava/lang/Byte;");
+            } else if (returnType.equals(Type.SHORT_TYPE)) {
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Short", "valueOf", "(S)Ljava/lang/Short;");
+            } else if (returnType.equals(Type.INT_TYPE)) {
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Integer", "valueOf", "(I)Ljava/lang/Integer;");
+            } else if (returnType.equals(Type.LONG_TYPE)) {
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Long", "valueOf", "(J)Ljava/lang/Long;");
+            } else if (returnType.equals(Type.FLOAT_TYPE)) {
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Float", "valueOf", "(F)Ljava/lang/Float;");
+            } else if (returnType.equals(Type.DOUBLE_TYPE)) {
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Double", "valueOf", "(D)Ljava/lang/Double;");
+            } else if (returnType.equals(Type.CHAR_TYPE)) {
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Character", "valueOf", "(C)Ljava/lang/Character;");
             }
         }
         // Reload start time from localvariable

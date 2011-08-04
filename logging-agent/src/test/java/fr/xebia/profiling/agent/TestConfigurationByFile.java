@@ -19,7 +19,7 @@ public class TestConfigurationByFile {
         assertTrue(!configurationByFile.getClassToInstrument().isClassNameMatch("java/util/Test"));
     }
 
-       @Test
+    @Test
     public void when_file_not_exist_then_regexpClassPattern_must_not_match_class() {
         ConfigurationByFile configurationByFile = new ConfigurationByFile("logging-agent/src/test/resources/no-test-logging-agent.properties");
         assertTrue(!configurationByFile.getClassToInstrument().isClassNameMatch("java/util/Test"));

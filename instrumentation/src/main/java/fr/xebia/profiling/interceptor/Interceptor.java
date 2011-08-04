@@ -75,4 +75,8 @@ public class Interceptor {
         classLoadingInterceptors.add(classLoadingInterceptor);
     }
 
+    public static void shutdown(){
+        executorService.shutdown();
+    }
+
 }

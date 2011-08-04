@@ -2,6 +2,7 @@ package fr.xebia.profiling.agent;
 
 import fr.xebia.log.configuration.InstrumentationConfiguration;
 import fr.xebia.profiling.configuration.ClassInstrumentationConfiguration;
+import fr.xebia.profiling.interceptor.Interceptor;
 import fr.xebia.profiling.interceptor.MethodExecutedCallInterceptor;
 import fr.xebia.profiling.module.log.slf4j.Slf4jPerClassLogger;
 import org.objectweb.asm.commons.StaticInitMerger;
@@ -33,6 +34,8 @@ public class MainAgent {
     }
 
 
+
+
     private static void prepareInstrumentation(Instrumentation inst) {
         // Use system properties for locate configuration file.
         // By default use ./logging-agent.properties
@@ -44,7 +47,8 @@ public class MainAgent {
         List<MethodExecutedCallInterceptor> interceptorList = new ArrayList<MethodExecutedCallInterceptor>();
         interceptorList.add(new Slf4jPerClassLogger());
         InstrumentationConfiguration configuration = new ConfigurationByFile(confFilePath);
-        InstrumentationManager instrumentationManager = new InstrumentationManager(inst, configuration, null, interceptorList, null);
+        new InstrumentationManager(inst, configuration, null, interceptorList, null);
+        
     }
 
     interface Environnement {
