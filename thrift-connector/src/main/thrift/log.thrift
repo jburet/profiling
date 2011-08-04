@@ -18,16 +18,12 @@ struct MethodExecution {
 	7: string methodName,
 	// parameter
 	8: map<string,string> parameters,
-	// return value TODO change to binary
+	// return value
 	9: optional string returnValue,
-	// exception TODO change to binary
+	// exception
 	10: optional string throwableType,
 	// execution time
 	11: i64 executionTimeInNano,
-<<<<<<< HEAD
-=======
-
->>>>>>> dev-sampling
 }
 
 
