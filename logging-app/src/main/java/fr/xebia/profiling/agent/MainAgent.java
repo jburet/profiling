@@ -5,9 +5,8 @@ import fr.xebia.log.configuration.InstrumentationConfiguration;
 import fr.xebia.log.configuration.RegExpClassPattern;
 import fr.xebia.profiling.common.agent.AbstractMainAgent;
 import fr.xebia.profiling.common.agent.RestransformClassListener;
-import fr.xebia.profiling.interceptor.ClassLoadingInterceptor;
 import fr.xebia.profiling.interceptor.MethodExecutedCallInterceptor;
-import fr.xebia.profiling.module.profiling.sampling.SamplingMethod;
+import fr.xebia.profiling.module.log.slf4j.Slf4jPerClassLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,17 +65,14 @@ public class MainAgent extends AbstractMainAgent {
     protected void prepareInstrumentation(Instrumentation inst) {
         // Use system properties for locate configuration file.
         // By default use ./logging-agent.properties
-        String confFilePath = "profiling-agent.properties";
+        String confFilePath = "logging-agent.properties";
         if (System.getenv().containsKey(Environnement.CONFIGURATION_FILE)) {
             confFilePath = System.getenv(Environnement.CONFIGURATION_FILE);
         }
-        SamplingMethod samplingIterceptor = new SamplingMethod(new StdoutLogger(), 10);
         List<MethodExecutedCallInterceptor> interceptorList = new ArrayList<MethodExecutedCallInterceptor>();
-        List<ClassLoadingInterceptor> interceptorClassList = new ArrayList<ClassLoadingInterceptor>();
-        interceptorList.add(samplingIterceptor);
-        interceptorClassList.add(samplingIterceptor);
+        interceptorList.add(new Slf4jPerClassLogger());
         configuration = new ConfigurationByFile(confFilePath);
         debugConfiguration = new ConfigurationByFile(confFilePath);
-        new InstrumentationManager(inst, configuration, debugConfiguration, interceptorClassList, interceptorList, null);
+        new InstrumentationManager(inst, configuration, debugConfiguration, null, interceptorList, null);
     }
 }

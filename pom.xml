@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>logging-agent</module>
+        <module>logging-app</module>
         <module>instrumentation</module>
         <module>profiler-app</module>
         <module>hbase-persistence</module>

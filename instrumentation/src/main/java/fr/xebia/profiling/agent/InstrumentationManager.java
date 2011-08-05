@@ -20,7 +20,7 @@ public class InstrumentationManager {
         // Load ASM Transformer
         // Only one implementation...
         transformers.add(new InterceptorTransformer());
-        instrumentation.addTransformer(new ASMTransformationClassFileTransfomer(configuration.getClassToInstrument(),
+        instrumentation.addTransformer(new ASMTransformationClassFileTransfomer(instrumentation, configuration.getClassToInstrument(),
                 debugInstrumentationConfiguration.getInstrumentedClassToSave(), debugInstrumentationConfiguration.saveLocation(), transformers));
 
         // Register interceptor

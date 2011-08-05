@@ -23,7 +23,7 @@ public class TestASMTransformationClassFileTransfomer {
         // Mock transformer
         Transformer mockTransformer = mock(Transformer.class);
 
-        ASMTransformationClassFileTransfomer asmTransformationClassFileTransfomer = new ASMTransformationClassFileTransfomer(intrumentPattern, null, null,
+        ASMTransformationClassFileTransfomer asmTransformationClassFileTransfomer = new ASMTransformationClassFileTransfomer(null, intrumentPattern, null, null,
                 Arrays.asList(new Transformer[]{mockTransformer}));
         asmTransformationClassFileTransfomer.transform(null, "fr.xebia.MyClass", Double.class, null, classToTransform);
 
@@ -40,7 +40,7 @@ public class TestASMTransformationClassFileTransfomer {
         Transformer mockTransformer = mock(Transformer.class);
         when(mockTransformer.transform(classToTransform)).thenReturn("test".getBytes());
 
-        ASMTransformationClassFileTransfomer asmTransformationClassFileTransfomer = new ASMTransformationClassFileTransfomer(intrumentPattern, savePattern,
+        ASMTransformationClassFileTransfomer asmTransformationClassFileTransfomer = new ASMTransformationClassFileTransfomer(null, intrumentPattern, savePattern,
                 "./",
                 Arrays.asList(new Transformer[]{mockTransformer}));
         asmTransformationClassFileTransfomer.transform(null, "fr.xebia.MyClass", Double.class, null, classToTransform);
