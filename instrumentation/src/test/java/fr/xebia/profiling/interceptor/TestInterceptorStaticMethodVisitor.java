@@ -148,4 +148,47 @@ public class TestInterceptorStaticMethodVisitor {
 
     }
 
+    @Test
+    public void intrument_static_method_in_inner_class() throws IOException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InstantiationException, InvocationTargetException, InterruptedException {
+        // compile simple class
+
+        final String classUsedForTest = "test.StaticMethod$internalClass";
+        final String classToCompile = "test.StaticMethod";
+        final String methodToTest = "callStatic";
+
+        compiler.compileSource(new File("instrumentation/src/test/sources/" + classToCompile.replace('.', '/') + ".java"), classUsedForTest);
+        // Instrument compiled class
+        byte[] classInByte = compiler.loadClassInByte(classUsedForTest);
+        classInByte = interceptorTransformer.transform(classInByte);
+        compiler.storeClassInByte(classUsedForTest, classInByte);
+        Class testedClass = compiler.loadClassInVm(classUsedForTest);
+
+        Class c1 = Double.class;
+        Method method1 = testedClass.getMethod(methodToTest, new Class[]{Class.class});
+        method1.invoke(testedClass.newInstance(), new Class[]{c1});
+        Thread.sleep(1);
+        assertNotNull(lastMethodIntercepted.get(CLASSNAME));
+        assertNotNull(lastMethodIntercepted.get(METHOD));
+        assertNotNull(lastMethodIntercepted.get(THREAD_NAME));
+        assertNotNull(lastMethodIntercepted.get(THREAD_ID));
+        assertNotNull(lastMethodIntercepted.get(PARAM_TYPE));
+        assertNotNull(lastMethodIntercepted.get(PARAM_VALUE));
+        assertNotNull(lastMethodIntercepted.get(RETURN_TYPE));
+        assertNotNull(lastMethodIntercepted.get(RETURN_VALUE));
+        assertNotNull(lastMethodIntercepted.get(ENTER_METHOD_TIME));
+        assertNotNull(lastMethodIntercepted.get(EXIT_METHOD_TIME));
+        assertEquals(lastMethodIntercepted.get(CLASSNAME), classUsedForTest.replace('.', '/'));
+        assertEquals(lastMethodIntercepted.get(METHOD), methodToTest);
+        assertEquals(((Class[]) lastMethodIntercepted.get(PARAM_TYPE)).length, 1);
+        // Impossible de réenvoyer les class primitive (int.class) avec asm...
+        // On renvoie la class de l'objet correspondant
+        //assertEquals(((Class[]) lastMethodIntercepted.get(PARAM_TYPE))[0], int.class);
+        //assertEquals(((Class[]) lastMethodIntercepted.get(PARAM_TYPE))[1], int.class);
+        assertEquals(((Class[]) lastMethodIntercepted.get(PARAM_TYPE))[0], Class.class);
+        assertEquals(((Object[]) lastMethodIntercepted.get(PARAM_VALUE)).length, 1);
+        assertEquals(((Object[]) lastMethodIntercepted.get(PARAM_VALUE))[0], c1);
+        assertEquals(lastMethodIntercepted.get(RETURN_TYPE), Object.class);
+
+    }
+
 }

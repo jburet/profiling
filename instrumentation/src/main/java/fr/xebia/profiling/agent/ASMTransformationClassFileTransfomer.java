@@ -2,6 +2,8 @@ package fr.xebia.profiling.agent;
 
 import fr.xebia.log.configuration.RegExpClassPattern;
 import fr.xebia.profiling.interceptor.Transformer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,11 +15,19 @@ import java.util.List;
 
 public class ASMTransformationClassFileTransfomer implements ClassFileTransformer {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ASMTransformationClassFileTransfomer.class);
+
     private RegExpClassPattern regExpClassPattern;
+    private RegExpClassPattern regExpClassToSavePattern;
+    private File savePath;
     private List<Transformer> transformers;
 
-    public ASMTransformationClassFileTransfomer(RegExpClassPattern regExpClassPattern, List<Transformer> transformers) {
+    public ASMTransformationClassFileTransfomer(RegExpClassPattern regExpClassPattern, RegExpClassPattern instrumentedClassToSave, String savePath, List<Transformer> transformers) {
         this.regExpClassPattern = regExpClassPattern;
+        this.regExpClassToSavePattern = instrumentedClassToSave;
+        if (savePath != null) {
+            this.savePath = new File(savePath);
+        }
         this.transformers = transformers;
     }
 
@@ -29,40 +39,30 @@ public class ASMTransformationClassFileTransfomer implements ClassFileTransforme
             // Apply all needed tranformation
             for (Transformer t : transformers) {
                 classBuffer = t.transform(classBuffer);
-
-
-                /**
-                 * TODO make a better implem
-                 * For debug purpose
-                 */
-                /**
-                 String f = className.substring(className.lastIndexOf("/"));
-                 File file = new File(f);
-                 FileOutputStream fout = null;
-                 try {
-                 file.createNewFile();
-                 fout = new FileOutputStream(file);
-                 fout.write(classBuffer);
-                 fout.close();
-                 } catch (Exception e) {
-                 e.printStackTrace();
-                 } finally {
-                 if (fout != null) {
-                 try {
-                 fout.close();
-                 } catch (IOException e) {
-                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                 }
-                 }
-                 }
-                 **/
-                /**
-                 * End debug
-                 */
             }
+
+            if (savePath != null && regExpClassToSavePattern != null && regExpClassToSavePattern.isClassNameMatch(className)) {
+                File file = new File(savePath, className);
+                FileOutputStream fout = null;
+                try {
+                    file.createNewFile();
+                    fout = new FileOutputStream(file);
+                    fout.write(classBuffer);
+                    fout.close();
+                } catch (Exception e) {
+                    LOGGER.error("Cannot save instrumented class", e);
+                } finally {
+                    if (fout != null) {
+                        try {
+                            fout.close();
+                        } catch (IOException e) {
+                            LOGGER.warn("Cannot close Stream for file {}", className);
+                        }
+                    }
+                }
+            }
+
         }
-
-
         return classBuffer;
     }
 }
