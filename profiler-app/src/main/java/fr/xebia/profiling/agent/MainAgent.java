@@ -2,8 +2,6 @@ package fr.xebia.profiling.agent;
 
 import fr.xebia.profiling.configuration.ClassInstrumentationConfiguration;
 import fr.xebia.profiling.interceptor.MethodExecutedCallInterceptor;
-import fr.xebia.profiling.module.log.slf4j.Slf4jPerClassLogger;
-
 import java.lang.instrument.Instrumentation;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +31,7 @@ public class MainAgent {
 
     private static void prepareInstrumentation(Instrumentation inst) {
 
-        List<MethodExecutedCallInterceptor> interceptorList = new ArrayList<MethodExecutedCallInterceptor>();
-        interceptorList.add(new Slf4jPerClassLogger());
-        InstrumentationManager instrumentationManager = new InstrumentationManager(inst, null, null, null, null);
-    }
+        List<MethodExecutedCallInterceptor> interceptorList = new ArrayList<MethodExecutedCallInterceptor>();    }
 
 
 }

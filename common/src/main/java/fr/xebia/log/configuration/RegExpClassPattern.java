@@ -22,7 +22,7 @@ public class RegExpClassPattern {
                 try {
                     patterns.add(Pattern.compile(ps));
                 } catch (Exception e) {
-                    LOGGER.warn("Regex^p not valid for class pattenrn : {}", ps);
+                    LOGGER.warn("Regexp not valid for class pattenrn : {}", ps);
                 }
             }
         }

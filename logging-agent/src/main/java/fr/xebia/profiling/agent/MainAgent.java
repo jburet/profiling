@@ -1,5 +1,6 @@
 package fr.xebia.profiling.agent;
 
+import fr.xebia.log.configuration.DebugInstrumentationConfiguration;
 import fr.xebia.log.configuration.InstrumentationConfiguration;
 import fr.xebia.profiling.configuration.ClassInstrumentationConfiguration;
 import fr.xebia.profiling.interceptor.Interceptor;
@@ -47,7 +48,8 @@ public class MainAgent {
         List<MethodExecutedCallInterceptor> interceptorList = new ArrayList<MethodExecutedCallInterceptor>();
         interceptorList.add(new Slf4jPerClassLogger());
         InstrumentationConfiguration configuration = new ConfigurationByFile(confFilePath);
-        new InstrumentationManager(inst, configuration, null, interceptorList, null);
+        DebugInstrumentationConfiguration debugConfiguration = new ConfigurationByFile(confFilePath);
+        new InstrumentationManager(inst, configuration, debugConfiguration, null, interceptorList, null);
         
     }
 

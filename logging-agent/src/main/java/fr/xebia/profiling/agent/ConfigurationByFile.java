@@ -1,5 +1,6 @@
 package fr.xebia.profiling.agent;
 
+import fr.xebia.log.configuration.DebugInstrumentationConfiguration;
 import fr.xebia.log.configuration.RegExpClassPattern;
 import fr.xebia.log.configuration.InstrumentationConfiguration;
 import fr.xebia.log.configuration.PropertiesUtils;
@@ -10,13 +11,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
-import java.util.regex.Pattern;
 
 /**
  * Load configuration with a properties file.
  * File path is configured in constructor
  */
-public class ConfigurationByFile implements InstrumentationConfiguration {
+public class ConfigurationByFile implements InstrumentationConfiguration, DebugInstrumentationConfiguration {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigurationByFile.class);
 
@@ -25,6 +25,8 @@ public class ConfigurationByFile implements InstrumentationConfiguration {
     private final String confFilePath;
 
     private RegExpClassPattern regExpClassPattern;
+    private RegExpClassPattern regExpClassToPattern;
+    private String saveClassPath;
 
     public ConfigurationByFile(String filePath) {
         this.confFilePath = filePath;
@@ -51,12 +53,27 @@ public class ConfigurationByFile implements InstrumentationConfiguration {
         }
 
         // Create or update configuration
+        // Logged class
         List<String> classToInstrument = PropertiesUtils.convertPropertiesToList("log.package", configProperties);
         regExpClassPattern = new RegExpClassPattern(classToInstrument);
+        // Saved class
+        List<String> classToSave = PropertiesUtils.convertPropertiesToList("debug.classes.save.package", configProperties);
+        regExpClassToPattern = new RegExpClassPattern(classToSave);
+        saveClassPath = (String) configProperties.get("debug.classes.save.path");
     }
 
     @Override
     public RegExpClassPattern getClassToInstrument() {
         return regExpClassPattern;
+    }
+
+    @Override
+    public RegExpClassPattern getInstrumentedClassToSave() {
+        return regExpClassToPattern;
+    }
+
+    @Override
+    public String saveLocation() {
+        return saveClassPath;
     }
 }
