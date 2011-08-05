@@ -270,6 +270,15 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
         // add method name, classname, threadname, correlation id in operand stack
         mv.visitLdcInsn(className);
         mv.visitLdcInsn(methodName);
+        // Call for get correlation id
+        mv.visitInsn(Opcodes.DUP2);
+        mv.visitVarInsn(Opcodes.ALOAD, argValueVar);
+        mv.visitMethodInsn(INVOKESTATIC, "fr/xebia/profiling/interceptor/ContextInterceptor", "getAndUpdateContext", "(" +
+                "Ljava/lang/String;" +
+                "Ljava/lang/String;" +
+                "[Ljava/lang/Object;" +
+                ")Ljava/lang/Long;");
+
         // Thread name
         mv.visitMethodInsn(INVOKESTATIC, "java/lang/Thread", "currentThread", "()Ljava/lang/Thread;");
         mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Thread", "getName", "()Ljava/lang/String;");
@@ -292,6 +301,7 @@ public class InterceptorMethodVisitor extends AdviceAdapter {
                 "J" +
                 "Ljava/lang/String;" +
                 "Ljava/lang/String;" +
+                "Ljava/lang/Long;" +
                 "Ljava/lang/String;" +
                 "J" +
                 "[Ljava/lang/Class;" +

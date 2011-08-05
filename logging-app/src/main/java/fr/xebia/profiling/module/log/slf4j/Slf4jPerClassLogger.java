@@ -22,7 +22,7 @@ public class Slf4jPerClassLogger implements MethodExecutedCallInterceptor {
     private long timeForError = 100 * 1024 * 1024;
 
     @Override
-    public void methodExecuted(String className, String methodCall, String threadName, long threadIdentifier, Class[] paramType, Object[] paramValue, Class returnType, Object returnValue, long enterMethodTime, long exitMethodTime) {
+    public void methodExecuted(String className, String methodCall, Long contextIdentifier, String threadName, long threadIdentifier, Class[] paramType, Object[] paramValue, Class returnType, Object returnValue, long enterMethodTime, long exitMethodTime) {
         Logger logger = getOrCreateLogger(className);
         long executionTimeInNano = (exitMethodTime - enterMethodTime);
         // Log only if > than limitExecutionTimeInNano

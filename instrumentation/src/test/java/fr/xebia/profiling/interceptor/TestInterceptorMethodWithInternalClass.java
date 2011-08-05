@@ -37,7 +37,7 @@ public class TestInterceptorMethodWithInternalClass {
             // Register test interceptor        
             Interceptor.registerMethodInterceptor(new MethodExecutedCallInterceptor() {
                 @Override
-                public void methodExecuted(String className, String methodCall, String threadName, long threadIdentifier, Class[] paramType, Object[] paramValue, Class returnType, Object returnValue, long enterMethodTime, long exitMethodTime) {
+                public void methodExecuted(String className, String methodCall, Long contextIdentifier, String threadName, long threadIdentifier, Class[] paramType, Object[] paramValue, Class returnType, Object returnValue, long enterMethodTime, long exitMethodTime) {
                     lastMethodIntercepted.put(CLASSNAME, className);
                     lastMethodIntercepted.put(METHOD, methodCall);
                     lastMethodIntercepted.put(THREAD_NAME, threadName);

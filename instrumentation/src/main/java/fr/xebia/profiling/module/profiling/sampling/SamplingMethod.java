@@ -56,7 +56,7 @@ public class SamplingMethod implements MethodExecutedCallInterceptor, ClassLoadi
     }
 
     @Override
-    public void methodExecuted(String className, String methodCall, String threadName, long threadIdentifier, Class[] paramType, Object[] paramValue, Class returnType, Object returnValue, long enterMethodTime, long exitMethodTime) {
+    public void methodExecuted(String className, String methodCall, Long contextIdentifier, String threadName, long threadIdentifier, Class[] paramType, Object[] paramValue, Class returnType, Object returnValue, long enterMethodTime, long exitMethodTime) {
         Map<String, SamplingInfo> methodSampling = samplingClassMap.get(className);
         synchronized (methodSampling) {
             SamplingInfo si = methodSampling.get(methodCall);
