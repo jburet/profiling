@@ -38,10 +38,17 @@
             <groupId>asm</groupId>
             <artifactId>asm-debug-all</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.9.0-rc1</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
