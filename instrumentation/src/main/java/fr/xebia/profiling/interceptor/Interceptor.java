@@ -41,7 +41,7 @@ public class Interceptor {
 
 
     public static void methodExecuted(final Object returnValue, final long enterMethodTime, final long exitMethodTime,
-                                      final String className, final String methodCall, final String threadName,
+                                      final String className, final String methodCall, final Long contextIdentifier, final String threadName,
                                       final long threadIdentifier, final Class[] paramType, final Object[] paramValue,
                                       final Class returnType) {
         // Execute in async DON'T BLOCK monitored application code
@@ -49,7 +49,7 @@ public class Interceptor {
             @Override
             public void run() {
                 for (MethodExecutedCallInterceptor mci : methodExecutedInterceptor) {
-                    mci.methodExecuted(className, methodCall, threadName, threadIdentifier, paramType, paramValue, returnType, returnValue, enterMethodTime, exitMethodTime);
+                    mci.methodExecuted(className, methodCall, contextIdentifier, threadName, threadIdentifier, paramType, paramValue, returnType, returnValue, enterMethodTime, exitMethodTime);
                 }
             }
         });
@@ -73,6 +73,10 @@ public class Interceptor {
 
     static void registerClassLoadingInterceptor(ClassLoadingInterceptor classLoadingInterceptor) {
         classLoadingInterceptors.add(classLoadingInterceptor);
+    }
+
+    public static void shutdown(){
+        executorService.shutdown();
     }
 
 }

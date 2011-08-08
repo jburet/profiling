@@ -40,7 +40,7 @@ public class TestInterceptorMethodVisitor {
             // Register test interceptor
             Interceptor.registerMethodInterceptor(new MethodExecutedCallInterceptor() {
                 @Override
-                public void methodExecuted(String className, String methodCall, String threadName, long threadIdentifier, Class[] paramType, Object[] paramValue, Class returnType, Object returnValue, long enterMethodTime, long exitMethodTime) {
+                public void methodExecuted(String className, String methodCall, Long contextIdentifier, String threadName, long threadIdentifier, Class[] paramType, Object[] paramValue, Class returnType, Object returnValue, long enterMethodTime, long exitMethodTime) {
                     lastMethodIntercepted.put(CLASSNAME, className);
                     lastMethodIntercepted.put(METHOD, methodCall);
                     lastMethodIntercepted.put(THREAD_NAME, threadName);
@@ -74,7 +74,7 @@ public class TestInterceptorMethodVisitor {
         Class testedClass = compiler.loadClassInVm("test.SimpleClass");
         Method method1 = method1 = testedClass.getMethod("method1");
         method1.invoke(testedClass.newInstance(), new Object[0]);
-        Thread.sleep(100);
+        Thread.sleep(1);
         assertNotNull(lastMethodIntercepted.get(CLASSNAME));
         assertNotNull(lastMethodIntercepted.get(METHOD));
         assertNotNull(lastMethodIntercepted.get(THREAD_NAME));
@@ -108,7 +108,7 @@ public class TestInterceptorMethodVisitor {
 
         Method method1 = testedClass.getMethod(methodToTest, new Class[]{int.class, int.class});
         method1.invoke(testedClass.newInstance(), new Object[]{1, 2});
-        Thread.sleep(100);
+        Thread.sleep(1);
         assertNotNull(lastMethodIntercepted.get(CLASSNAME));
         assertNotNull(lastMethodIntercepted.get(METHOD));
         assertNotNull(lastMethodIntercepted.get(THREAD_NAME));
@@ -150,7 +150,7 @@ public class TestInterceptorMethodVisitor {
 
         Method method1 = testedClass.getMethod(methodToTest, new Class[]{char.class, char.class});
         method1.invoke(testedClass.newInstance(), new Object[]{'a', 'b'});
-        Thread.sleep(100);
+        Thread.sleep(1);
         assertNotNull(lastMethodIntercepted.get(CLASSNAME));
         assertNotNull(lastMethodIntercepted.get(METHOD));
         assertNotNull(lastMethodIntercepted.get(THREAD_NAME));
@@ -193,7 +193,7 @@ public class TestInterceptorMethodVisitor {
 
         Method method1 = testedClass.getMethod(methodToTest, new Class[]{boolean.class, boolean.class});
         method1.invoke(testedClass.newInstance(), new Object[]{true, false});
-        Thread.sleep(100);
+        Thread.sleep(1);
         assertNotNull(lastMethodIntercepted.get(CLASSNAME));
         assertNotNull(lastMethodIntercepted.get(METHOD));
         assertNotNull(lastMethodIntercepted.get(THREAD_NAME));
@@ -236,7 +236,7 @@ public class TestInterceptorMethodVisitor {
 
         Method method1 = testedClass.getMethod(methodToTest, new Class[]{short.class, short.class});
         method1.invoke(testedClass.newInstance(), new Object[]{(short) 1, (short) 2});
-        Thread.sleep(100);
+        Thread.sleep(1);
         assertNotNull(lastMethodIntercepted.get(CLASSNAME));
         assertNotNull(lastMethodIntercepted.get(METHOD));
         assertNotNull(lastMethodIntercepted.get(THREAD_NAME));
@@ -278,7 +278,7 @@ public class TestInterceptorMethodVisitor {
 
         Method method1 = testedClass.getMethod(methodToTest, new Class[]{long.class, long.class});
         method1.invoke(testedClass.newInstance(), new Object[]{(long) 1, (long) 2});
-        Thread.sleep(100);
+        Thread.sleep(1);
         assertNotNull(lastMethodIntercepted.get(CLASSNAME));
         assertNotNull(lastMethodIntercepted.get(METHOD));
         assertNotNull(lastMethodIntercepted.get(THREAD_NAME));
@@ -320,7 +320,7 @@ public class TestInterceptorMethodVisitor {
 
         Method method1 = testedClass.getMethod(methodToTest, new Class[]{float.class, float.class});
         method1.invoke(testedClass.newInstance(), new Object[]{(float) 1, (float) 2});
-        Thread.sleep(100);
+        Thread.sleep(1);
         assertNotNull(lastMethodIntercepted.get(CLASSNAME));
         assertNotNull(lastMethodIntercepted.get(METHOD));
         assertNotNull(lastMethodIntercepted.get(THREAD_NAME));
@@ -362,7 +362,7 @@ public class TestInterceptorMethodVisitor {
 
         Method method1 = testedClass.getMethod(methodToTest, new Class[]{double.class, double.class});
         method1.invoke(testedClass.newInstance(), new Object[]{(double) 1, (double) 2});
-        Thread.sleep(100);
+        Thread.sleep(1);
         assertNotNull(lastMethodIntercepted.get(CLASSNAME));
         assertNotNull(lastMethodIntercepted.get(METHOD));
         assertNotNull(lastMethodIntercepted.get(THREAD_NAME));
@@ -407,7 +407,7 @@ public class TestInterceptorMethodVisitor {
         Object o2 = new Object();
         Method method1 = testedClass.getMethod(methodToTest, new Class[]{Object.class, Object.class});
         method1.invoke(testedClass.newInstance(), new Object[]{o1, o2});
-        Thread.sleep(100);
+        Thread.sleep(1);
         assertNotNull(lastMethodIntercepted.get(CLASSNAME));
         assertNotNull(lastMethodIntercepted.get(METHOD));
         assertNotNull(lastMethodIntercepted.get(THREAD_NAME));
@@ -434,5 +434,23 @@ public class TestInterceptorMethodVisitor {
 
     }
 
+    @Test
+    public void instrument_method_with_try_finally_valid() throws IOException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InstantiationException, InvocationTargetException, InterruptedException {
+        // compile simple class
+        final String classUsedForTest = "test.MethodWithTryFinally";
+        final String methodToTest = "failsToVerify";
+
+        compiler.compileSource(new File("instrumentation/src/test/sources/" + classUsedForTest.replace('.', '/') + ".java"), classUsedForTest);
+        // Instrument compiled class
+        byte[] classInByte = compiler.loadClassInByte(classUsedForTest);
+        classInByte = interceptorTransformer.transform(classInByte);
+        compiler.storeClassInByte(classUsedForTest, classInByte);
+        Class testedClass = compiler.loadClassInVm(classUsedForTest);
+
+        Method method1 = testedClass.getMethod(methodToTest, new Class[]{});
+        method1.invoke(testedClass.newInstance(), new Object[]{});
+
+
+    }
 
 }

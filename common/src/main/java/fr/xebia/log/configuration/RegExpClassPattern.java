@@ -22,7 +22,7 @@ public class RegExpClassPattern {
                 try {
                     patterns.add(Pattern.compile(ps));
                 } catch (Exception e) {
-                    LOGGER.warn("Regex^p not valid for class pattenrn : {}", ps);
+                    LOGGER.warn("Regexp not valid for class pattenrn : {}", ps);
                 }
             }
         }
@@ -30,6 +30,7 @@ public class RegExpClassPattern {
 
     /**
      * Return true if classname match one of stored pattern
+     *
      * @param classname
      * @return
      */
@@ -40,5 +41,9 @@ public class RegExpClassPattern {
             }
         }
         return false;
+    }
+
+    public boolean isClassMatch(Class c) {
+        return isClassNameMatch(c.getName().replace(".", "/"));
     }
 }
